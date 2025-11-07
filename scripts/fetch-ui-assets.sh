@@ -20,13 +20,24 @@ declare -r STATIC_DIR="$ROOT_DIR/static"
 
 UI_RELEASE="OSS-v2.7.12"
 
-# Download the SHA256 checksum attached to the release. To verify the integrity
-# of the download, this checksum will be used to check the download tar file
-# containing the built UI assets.
-curl -Ls https://github.com/influxdata/ui/releases/download/$UI_RELEASE/sha256.txt --output sha256.txt
+if [[ -n "$INFLUXDB_UI_PATH" ]]; then
+   cp -R $INFLUXDB_UI_PATH/build "$STATIC_DIR/data"
+   exit 0
+fi
+#INFLUXDB_UI_REPOSITORY_URL="https://github.com/thnru/influxdbui.git"
+if [[ -n "$INFLUXDB_UI_REPOSITORY_URL" ]]; then
+   URL=$(echo $INFLUXDB_UI_REPOSITORY_URL | sed "s/\.git$/\/releases\/download\/$UI_RELEASE/")
+   curl -Ls ${URL}/sha256.txt --output sha256.txt
+   curl -L ${URL}/build.tar.gz --output build.tar.gz
+else
+   # Download the SHA256 checksum attached to the release. To verify the integrity
+   # of the download, this checksum will be used to check the download tar file
+   # containing the built UI assets.
+   curl -Ls https://github.com/influxdata/ui/releases/download/$UI_RELEASE/sha256.txt --output sha256.txt
 
-# Download the tar file containing the built UI assets.
-curl -L https://github.com/influxdata/ui/releases/download/$UI_RELEASE/build.tar.gz --output build.tar.gz
+   # Download the tar file containing the built UI assets.
+   curl -L https://github.com/influxdata/ui/releases/download/$UI_RELEASE/build.tar.gz --output build.tar.gz
+fi
 
 # Verify the checksums match; exit if they don't.
 case "$(uname -s)" in

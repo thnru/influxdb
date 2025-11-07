@@ -14,7 +14,12 @@ declare -r OPENAPI_SHA=8b5f1bbb2cd388eb454dc9da19e3d2c4061cdf5f
 
 # Don't do a shallow clone since the commit we want might be several commits
 # back; but do only clone the main branch.
-git clone https://github.com/influxdata/openapi.git --single-branch
+# INFLUXDB_OPENAPI_REPOSITORY_URL="https://github.com/thnru/influxdbapi.git"
+if [[ -z "$INFLUXDB_OPENAPI_REPOSITORY_URL" ]]; then
+   git clone https://github.com/influxdata/openapi.git --single-branch
+else
+   git clone ${INFLUXDB_OPENAPI_REPOSITORY_URL} openapi --single-branch
+fi
 mkdir -p "$STATIC_DIR/data"
 cd openapi && git checkout ${OPENAPI_SHA} --quiet && cp contracts/oss.json "$STATIC_DIR/data/swagger.json"
 cd ../ && rm -rf openapi
