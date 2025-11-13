@@ -33,7 +33,7 @@ require (
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/hashicorp/vault/api v1.0.2
 	github.com/influxdata/cron v0.0.0-20201006132531-4bb0a200dcbe
-	github.com/influxdata/flux v0.197.0
+	github.com/influxdata/flux v0.198.0
 	github.com/influxdata/httprouter v1.3.1-0.20191122104820-ee83e2772f69
 	github.com/influxdata/influx-cli/v2 v2.2.1-0.20221028161653-3285a03e9e28
 	github.com/influxdata/influxql v1.2.0
@@ -261,3 +261,5 @@ require (
 replace github.com/nats-io/nats-streaming-server v0.11.2 => github.com/influxdata/nats-streaming-server v0.11.3-0.20201112040610-c277f7560803
 
 replace google.golang.org/protobuf v1.30.0 => google.golang.org/protobuf v1.33.0
+
+replace github.com/influxdata/flux => ../flux

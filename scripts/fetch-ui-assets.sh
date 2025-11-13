@@ -21,7 +21,8 @@ declare -r STATIC_DIR="$ROOT_DIR/static"
 UI_RELEASE="OSS-v2.7.12"
 
 if [[ -n "$INFLUXDB_UI_PATH" ]]; then
-   cp -R $INFLUXDB_UI_PATH/build "$STATIC_DIR/data"
+   mkdir -p "$STATIC_DIR/data"
+   cp -r "$INFLUXDB_UI_PATH/build" "$STATIC_DIR/data"
    exit 0
 fi
 #INFLUXDB_UI_REPOSITORY_URL="https://github.com/thnru/influxdbui.git"

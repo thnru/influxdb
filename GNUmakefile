@@ -55,7 +55,7 @@ GO_TEST_PATHS=./...
 
 # Test vars can be used by all recursive Makefiles
 export PKG_CONFIG:=$(PWD)/scripts/pkg-config.sh
-export GO_BUILD=env GO111MODULE=on go build $(GO_BUILD_ARGS) -ldflags "$(LDFLAGS)"
+export GO_BUILD=env GO111MODULE=on GOARCH=$(TARGET_GOARCH) CC=$(TARGET_CC) go build $(GO_BUILD_ARGS) -ldflags "$(LDFLAGS)"
 export GO_INSTALL=env GO111MODULE=on go install $(GO_BUILD_ARGS) -ldflags "$(LDFLAGS)"
 export GO_TEST=env GOTRACEBACK=all GO111MODULE=on $(GO_TEST_CMD) $(GO_TEST_ARGS)
 # Do not add GO111MODULE=on to the call to go generate so it doesn't pollute the environment.
