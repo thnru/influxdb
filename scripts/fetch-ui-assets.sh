@@ -18,7 +18,7 @@ declare -r SCRIPT_DIR=$(cd $(dirname ${0}) >/dev/null 2>&1 && pwd)
 declare -r ROOT_DIR=$(dirname ${SCRIPT_DIR})
 declare -r STATIC_DIR="$ROOT_DIR/static"
 
-UI_RELEASE="OSS-v2.7.12"
+UI_RELEASE="thn-v2.7.12"
 
  #thn: добавлены альтернативные пути получения UI-ассетов: локально и из кастомного репозитория
 if [[ -n "$INFLUXDB_UI_PATH" ]]; then
