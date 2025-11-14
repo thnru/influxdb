@@ -20,6 +20,7 @@ declare -r STATIC_DIR="$ROOT_DIR/static"
 
 UI_RELEASE="OSS-v2.7.12"
 
+ #thn: добавлены альтернативные пути получения UI-ассетов: локально и из кастомного репозитория
 if [[ -n "$INFLUXDB_UI_PATH" ]]; then
    mkdir -p "$STATIC_DIR/data"
    cp -r "$INFLUXDB_UI_PATH/build" "$STATIC_DIR/data"

@@ -36,10 +36,11 @@ ifneq ($(GCFLAGS),)
 GO_BUILD_ARGS += -gcflags "$(GCFLAGS)"
 endif
 
+#thn: --exact-match убран из describe за ненадобностью и добавлено отбрасывание коращенного коммита из версии (коммит есть в поле main.commit)
 ifeq ($(OS), Windows_NT)
-	VERSION := $(shell git describe --exact-match --tags 2>nil)
+	VERSION := $(shell git describe --tags 2>nil)
 else
-	VERSION := $(shell git describe --exact-match --tags 2>/dev/null)
+	VERSION := $(shell git describe --tags 2>/dev/null) | sed -E 's/(.*)-.*/\1/
 endif
 COMMIT := $(shell git rev-parse --short HEAD)
 
@@ -55,6 +56,10 @@ GO_TEST_PATHS=./...
 
 # Test vars can be used by all recursive Makefiles
 export PKG_CONFIG:=$(PWD)/scripts/pkg-config.sh
+#thn: для кросс-компиляции архитектура и компилятор целевой системы задаются переменными TARGET_GOARCH и TARGET_CC,
+#так как pkg-config.sh запускается в оболочке go build, в packge-config.sh надо явно устновить GOARCH и CC обратно в значения для системы, в которой производится сборка
+#пример команды сборки релиза для arm64:
+#LDFLAGS="-s -w" INFLUXDB_OPENAPI_PATH="../api" INFLUXDB_UI_PATH="../ui" CGO_ENABLED=1 TARGET_CC=aarch64-linux-gnu-gcc TARGET_GOARCH=arm64 GOARM64=v8.0 make clean build
 export GO_BUILD=env GO111MODULE=on GOARCH=$(TARGET_GOARCH) CC=$(TARGET_CC) go build $(GO_BUILD_ARGS) -ldflags "$(LDFLAGS)"
 export GO_INSTALL=env GO111MODULE=on go install $(GO_BUILD_ARGS) -ldflags "$(LDFLAGS)"
 export GO_TEST=env GOTRACEBACK=all GO111MODULE=on $(GO_TEST_CMD) $(GO_TEST_ARGS)

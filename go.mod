@@ -262,4 +262,4 @@ replace github.com/nats-io/nats-streaming-server v0.11.2 => github.com/influxdat
 
 replace google.golang.org/protobuf v1.30.0 => google.golang.org/protobuf v1.33.0
 
-replace github.com/influxdata/flux => ../flux
+//replace github.com/influxdata/flux => ../flux
